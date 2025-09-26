@@ -1,0 +1,7 @@
+A saída é variável com base no valor de n, vou utilizar um valor de n = 5 para exemplificar a saída
+
+1
+2 1
+3 2 1
+4 3 2 1
+5 4 3 2 1
