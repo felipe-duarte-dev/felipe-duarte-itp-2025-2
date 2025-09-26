@@ -1,5 +1,12 @@
 #include <stdio.h> // Inclui biblioteca de entrada e saída
 
+typedef struct { // Estrutura que servirá de molde para as informações pertinentes a um aluno, atuando como no dicionário em python, atuando como par chave-valor
+    char nome[50]; // Todo aluno possui com nome com tamanho de até 50 caracteres
+    int idade; // Todo aluno possui uma idade inteira
+    int serie_escolar; // Todo aluno está em uma série escolar
+    char matricula[11]; // Todo aluno recebe uma matrícula do tipo: Ano-Perído-Classe_escolar-Serie_escolar-Número_identificador, ex: 20251033001
+} Aluno; // O exemplo acima descreve um aluno matriculado no período 2025.1, ensino médio: 03, 3 ano: 3, número identificador: 001
+
 int main() { // Função principal
     
     int opcao_menu; // Declaração de variável do tipo inteiro
