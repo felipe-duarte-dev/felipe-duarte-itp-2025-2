@@ -44,37 +44,64 @@ void cadastro_aluno(Aluno lista[], int *total_alunos) { // Função para cadastr
     printf("Aluno cadastrado!\n"); // Exibe mensagem de sucesso
 }
 
-void consultar_alunos(Aluno lista[], int total_alunos) {
+void consultar_alunos(Aluno lista[], int total_alunos) { // Função para a listagem de alunos
 
-    if (total_alunos == 0) {
-        printf("\nNao ha alunos cadastrados!\n");
-        return;
+    if (total_alunos == 0) { // Verifica se há alunos cadastrados
+        printf("\nNao ha alunos cadastrados!\n"); // Imprime aviso caso não haja alunos cadastrados
+        return; // Retorna a função
     }
 
-    int opcao_listagem, indice_listagem;
+    int opcao_listagem, indice_listagem; // Declaração de variáveis do tipo inteiro
 
-    printf("Digite a opcao de listagem: \n 1 - Listar todos\n 2 - Listar individualmente\n 3 - Sair\n");
-    scanf("%d", &opcao_listagem);
-    limpar_buffer();
+    do { // Laço de repetição para a execução da opção de listagem escolhida
 
-    do {
+        printf("Digite a opcao de listagem: \n 1 - Listar todos\n 2 - Listar individualmente\n 3 - Sair\n"); // Opções de listagem
+        scanf("%d", &opcao_listagem); // Lê opção de listagem
+        limpar_buffer(); // Limpa buffer de entrada
 
-        if (opcao_listagem != 1 && opcao_listagem != 2 && opcao_listagem != 3) {
-            opcao_listagem = -1;
+        if (opcao_listagem != 1 && opcao_listagem != 2 && opcao_listagem != 3) { // Verifica se a opção escolhida está dentro das opções existentes
+            opcao_listagem = -1; // Caso não esteja atribui o valor -1 a variável que guarda o valor da opção
         }
 
-        switch (opcao_listagem) {
-            case 1:
+        switch (opcao_listagem) { // Verifica a opção escolhida
+            case 1: // Lista todos os usuários cadastrados
+
+                for (int i = 0; i < total_alunos; i++) { // Laço de repetição que vai listar todos os alunos por ordem com base no índice do vetor
+
+                    printf("\n == Aluno %d ==\n", i + 1); // Mostra os dados do aluno armazenado na posição i do vetor, segue iterando com base no valor de i
+                    printf("Nome: %s\n", lista[i].nome); // Imprime nome
+                    printf("Idade: %d\n", lista[i].idade); // Imprime idade
+                    printf("Serie escolar: %d\n", lista[i].serie_escolar); // Imprime série escolar
+                    printf("Matricula: %s\n", lista[i].matricula); // Imprime matrícula
+                }
                 break;
-            case 2:
+            case 2: // Lista apenas um usuário escolhido
+
+                printf("Digite o indice do aluno a ser consultado: \n"); // Pergunta ao usuário qual aluno ele deseja consultar
+                scanf("%d", &indice_listagem); // Lê e armazena o número do aluno a ser consultado
+                indice_listagem -= 1; // A variável é decrementada para representar o índice real do aluno no vetor, ex: O aluno de cadastro 01 está no índice 0 do vetor
+                limpar_buffer(); // Limpa o buffer de entrada
+
+                if (indice_listagem < 0 || indice_listagem >= total_alunos) { // Verifica se o indice digitado está dentro dos índices existentes
+                    printf("Aluno inexistente, digite um numero entre 1 e %d para uma consulta valida!", total_alunos); // Exibe mensagem de erro
+                    break;
+                }
+
+                printf("\n == Aluno %d ==\n", indice_listagem + 1); // Mostra o número do aluno a ser exibido
+                printf("Nome: %s\n", lista[indice_listagem].nome); // Imprime nome
+                printf("Idade: %d\n", lista[indice_listagem].idade); // Imprime idade
+                printf("Serie escolar: %d\n", lista[indice_listagem].serie_escolar); // Imprime série escolar
+                printf("Matricula: %s\n", lista[indice_listagem].matricula); // Imprime matrícula
                 break;
-            case 3:
-                return;
+            case 3: // Encerra a função
+                return; // Retorna a função
                 break;
-            default:
-                printf("Opcao invalida! Tente novamente\n");
+            default: // Caso a opção não esteja dentro das 3 acima caímos nesse caso, que mostra que a opção é inválida
+                printf("Opcao invalida! Tente novamente\n"); // Exibe mensagem de erro
         }
-    } while (opcao_listagem != 3);
+
+    } while (opcao_listagem != 3); // Só encerra o laço quando opção escolhida for a 3
+
 }
 
 int main() { // Função principal
@@ -98,14 +125,14 @@ int main() { // Função principal
                 cadastro_aluno(lista_alunos, &total_alunos); // Chama a função de cadastro de alunos passando os parâmetros (vetor = lista de alunos, int = total de alunos)
                 break; 
             case 2: // Opção de consulta de usuário
-                consultar_alunos(lista_alunos, total_alunos);
+                consultar_alunos(lista_alunos, total_alunos); // Chama a função de listagem de usuários
                 break;
             case 3: // Opção de atualização de usuário
                 break;
             case 4: // Opção de deletar um usuário
                 break;
             case 5: // Opção para encerrar o programa
-                printf("Encerrando sistema! \n"); // Mensagem de encerramento
+                printf("Encerrando sistema... \n"); // Mensagem de encerramento
                 break;
             default: // Opções inválidas caem no caso padrão, reinicia o laço de repetição até a opção ser válida
                 printf("Opcao invalida!\n"); // Exibe mensagem ao usuário
