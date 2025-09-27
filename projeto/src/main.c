@@ -35,7 +35,7 @@ void cadastro_aluno(Aluno lista[], int *total_alunos) { // Função para cadastr
     scanf("%d", &lista[indice].serie_escolar); // Lê e armazena a série escolar do aluno
     limpar_buffer(); // Limpa o buffer para a entrada seguinte
 
-    printf("Digite a matrícula: \n"); // Instrução para o usuário
+    printf("Digite a matricula: \n"); // Instrução para o usuário
     scanf("%s", lista[indice].matricula); // Utilizei o scanf pois a entrada da matrícula não contém espaços, a legibilidade do código com scanf é mais simples
     limpar_buffer(); // Mesmo sendo a última pergunta a limpeza do buffer se faz necessária para continuar utilizando o loop do menu
 
@@ -54,6 +54,7 @@ int main() { // Função principal
 
         printf("Digite a opcao desejada:\n 1 - Cadastro\n 2 - Consulta\n 3 - Atualizar Cadastro\n 4 - Deletar Cadastro\n 5 - Sair\n"); // Imprime opções ao usuário
         scanf("%d", &opcao_menu); // Lê e armazena opção
+        limpar_buffer(); // Limpa o buffer após a escolha da opção
 
         if (opcao_menu != 1 && opcao_menu != 2 && opcao_menu != 3 && opcao_menu != 4 && opcao_menu != 5) { // Condição que verifica se a opção é válida
             opcao_menu = -1; // Caso não seja válida o valor -1 é atribuído a variável de opção
