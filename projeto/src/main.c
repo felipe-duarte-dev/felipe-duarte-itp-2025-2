@@ -7,6 +7,11 @@ typedef struct { // Estrutura que servirá de molde para as informações pertin
     char matricula[11]; // Todo aluno recebe uma matrícula do tipo: Ano-Perído-Classe_escolar-Serie_escolar-Número_identificador, ex: 20251033001
 } Aluno; // O exemplo acima descreve um aluno matriculado no período 2025.1, ensino médio: 03, 3 ano: 3, número identificador: 001
 
+void limpar_buffer() { // Função para limpar o buffer de entrada
+    int c; // Variável que armazena temporariamente cada caractere lido
+    while ((c = getchar()) != '\n' && c != EOF); // A função lê cada caractere, um por um, até encontrar o \n ou o End of File
+}
+
 int main() { // Função principal
     
     int opcao_menu; // Declaração de variável do tipo inteiro
