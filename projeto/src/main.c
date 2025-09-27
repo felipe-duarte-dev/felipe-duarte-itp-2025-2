@@ -1,4 +1,5 @@
 #include <stdio.h> // Inclui biblioteca de entrada e saída
+#include <string.h> // Inclui biblioteca com funções para strings
 
 typedef struct { // Estrutura que servirá de molde para as informações pertinentes a um aluno, atuando como no dicionário em python, atuando como par chave-valor
     char nome[50]; // Todo aluno possui com nome com tamanho de até 50 caracteres
@@ -12,9 +13,42 @@ void limpar_buffer() { // Função para limpar o buffer de entrada
     while ((c = getchar()) != '\n' && c != EOF); // A função lê cada caractere, um por um, até encontrar o \n ou o End of File
 }
 
-int main() { // Função principal
+void cadastro_aluno(Aluno lista[], int *total_alunos) { // Função para cadastro dos alunos
     
-    int opcao_menu; // Declaração de variável do tipo inteiro
+    if (*total_alunos >= 100) { // Verifica se o número de alunos cadastrados atingiu o limite do vetor
+        printf("O limite de alunos cadastrados foi atingido!"); // Imprime mensagem de erro para o usuário
+        return; // A função não retorna nada
+    }
+
+    int indice = *total_alunos; // Atualiza o indice com o número total de alunos, logo o último aluno cadastrado estará na última posição do vetor
+
+    printf("\n == Cadastro de Aluno %d ==\n", indice + 1); // Mostra o usuário o número do aluno cadastrado com base no índice, +1 pois o índice começa no 0
+    printf("Digite o nome: \n"); // Instrução para o usuário
+    fgets(lista[indice].nome, 50, stdin); // Lê a linha inteira e armazena o nome do aluno na chave nome do tipo criado Aluno
+    lista[indice].nome[strcspn(lista[indice].nome, "\n")] = 0; // Retira o \n do final do nome adicionado pelo fgets
+
+    printf("Digite a idade: \n"); // Instrução para o usuário
+    scanf("%d", &lista[indice].idade); // Lê e armazena a idade do aluno no vetor de alunos cadastrados, na chave idade da posição que o cadastro ocupa
+    limpar_buffer(); // Limpa o buffer para a próxima entrada, evitando que o programe pule a pergunta devido ao "\n" residual
+
+    printf("Digite a serie escolar: \n"); // Instrução para o usuário
+    scanf("%d", &lista[indice].serie_escolar); // Lê e armazena a série escolar do aluno
+    limpar_buffer(); // Limpa o buffer para a entrada seguinte
+
+    printf("Digite a matrícula: \n"); // Instrução para o usuário
+    scanf("%s", lista[indice].matricula); // Utilizei o scanf pois a entrada da matrícula não contém espaços, a legibilidade do código com scanf é mais simples
+    limpar_buffer(); // Mesmo sendo a última pergunta a limpeza do buffer se faz necessária para continuar utilizando o loop do menu
+
+    (*total_alunos)++; // Incrementa a variável que guarda o número de alunos cadastrados
+
+    printf("Aluno cadastrado!"); // Exibe mensagem de sucesso
+}
+
+int main() { // Função principal
+
+    Aluno lista_alunos[100]; // Vetor de dados do tipo Aluno, utilizando struct, possui o tamanho máximo de 100 elementos
+    
+    int opcao_menu, total_alunos = 0; // Declaração e atribuição de valores de variáveis do tipo inteiro
 
     do { // Laço de repetição do menu
 
@@ -27,7 +61,8 @@ int main() { // Função principal
 
         switch (opcao_menu) { // Laço condicional para verificar a opção escolhida
             case 1: // Opção de criação de usuário
-                break;
+                cadastro_aluno(lista_alunos, &total_alunos); // Chama a função de cadastro de alunos passando os parâmetros (vetor = lista de alunos, int = total de alunos)
+                break; 
             case 2: // Opção de consulta de usuário
                 break;
             case 3: // Opção de atualização de usuário
