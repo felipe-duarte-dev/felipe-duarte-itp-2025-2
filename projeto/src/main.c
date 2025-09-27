@@ -41,7 +41,40 @@ void cadastro_aluno(Aluno lista[], int *total_alunos) { // Função para cadastr
 
     (*total_alunos)++; // Incrementa a variável que guarda o número de alunos cadastrados
 
-    printf("Aluno cadastrado!"); // Exibe mensagem de sucesso
+    printf("Aluno cadastrado!\n"); // Exibe mensagem de sucesso
+}
+
+void consultar_alunos(Aluno lista[], int total_alunos) {
+
+    if (total_alunos == 0) {
+        printf("\nNao ha alunos cadastrados!\n");
+        return;
+    }
+
+    int opcao_listagem, indice_listagem;
+
+    printf("Digite a opcao de listagem: \n 1 - Listar todos\n 2 - Listar individualmente\n 3 - Sair\n");
+    scanf("%d", &opcao_listagem);
+    limpar_buffer();
+
+    do {
+
+        if (opcao_listagem != 1 && opcao_listagem != 2 && opcao_listagem != 3) {
+            opcao_listagem = -1;
+        }
+
+        switch (opcao_listagem) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                return;
+                break;
+            default:
+                printf("Opcao invalida! Tente novamente\n");
+        }
+    } while (opcao_listagem != 3);
 }
 
 int main() { // Função principal
@@ -65,6 +98,7 @@ int main() { // Função principal
                 cadastro_aluno(lista_alunos, &total_alunos); // Chama a função de cadastro de alunos passando os parâmetros (vetor = lista de alunos, int = total de alunos)
                 break; 
             case 2: // Opção de consulta de usuário
+                consultar_alunos(lista_alunos, total_alunos);
                 break;
             case 3: // Opção de atualização de usuário
                 break;
