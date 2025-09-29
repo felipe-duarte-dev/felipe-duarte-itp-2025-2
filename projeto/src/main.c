@@ -54,6 +54,13 @@ void consultar_alunos(Aluno lista[], int total_alunos) { // Função para a list
         return; // Retorna a função
     }
 
+    int alunos_ativos = cadastros_ativos(lista, total_alunos); // Recebe o número de aluno ativos
+
+    if (alunos_ativos == 0) { // Verifica se há cadastro de alunos ativos
+        printf("\nNao ha alunos cadastro de alunos ativo!\n"); // Imprime aviso caso não haja cadastros ativos
+        return; // Retorna a função
+    }
+
     int opcao_listagem, indice_listagem; // Declaração de variáveis do tipo inteiro
 
     do { // Laço de repetição para a execução da opção de listagem escolhida
@@ -114,6 +121,13 @@ void alterar_aluno(Aluno lista[], int total_alunos) { // Função para alterar c
 
     if (total_alunos == 0) { // Verifica se há alunos cadastrados
         printf("\nNao ha alunos cadastrados!\n"); // Imprime aviso caso não haja alunos cadastrados
+        return; // Retorna a função
+    }
+
+    int alunos_ativos = cadastros_ativos(lista, total_alunos); // Recebe o número de aluno ativos
+
+    if (alunos_ativos == 0) { // Verifica se há cadastro de alunos ativos
+        printf("\nNao ha alunos cadastro de alunos ativo!\n"); // Imprime aviso caso não haja cadastros ativos
         return; // Retorna a função
     }
 
@@ -238,6 +252,19 @@ void deletar_aluno(Aluno lista[], int total_alunos) {
 
 }
 
+int cadastros_ativos(Aluno lista[], int total_alunos) { // Função para calcular o número de cadastros ativos
+
+    int alunos_ativos = 0; // Declaração de variável do tipo inteiro
+
+    for (int i = 0; i < total_alunos; i++) { // Laço de repetição para contabilizar os alunos ativos
+        if (lista[i].ativo == 1) { // Verifica se o aluno está ativo
+            alunos_ativos++; // Caso esteja ativo a variável é incrementada
+        }
+    }
+
+    return alunos_ativos; // Retorna o número de alunos ativos
+}
+
 int main() { // Função principal
 
     Aluno lista_alunos[100]; // Vetor de dados do tipo Aluno, utilizando struct, possui o tamanho máximo de 100 elementos
@@ -246,6 +273,9 @@ int main() { // Função principal
 
     do { // Laço de repetição do menu
 
+        int alunos_ativos = cadastros_ativos(lista_alunos, total_alunos);
+
+        printf("ALUNO CADASTRADOS: %d / ALUNOS ATIVOS: %d", total_alunos, alunos_ativos);
         printf("Digite a opcao desejada:\n 1 - Cadastro\n 2 - Consulta\n 3 - Atualizar Cadastro\n 4 - Deletar Cadastro\n 5 - Sair\n"); // Imprime opções ao usuário
         scanf("%d", &opcao_menu); // Lê e armazena opção
         limpar_buffer(); // Limpa o buffer após a escolha da opção
