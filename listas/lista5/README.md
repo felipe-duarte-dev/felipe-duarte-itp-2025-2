@@ -11,18 +11,18 @@
 2.  **Compile o código:**
 
     ```bash
-    gcc -o problema1.c problema1.c 
-    ./problema1.c
+    gcc problema1.c -o problema1 
+    ./problema1
     ```
     ```bash
-    gcc -o problema2.c problema2.c 
-    ./problema2.c
+    gcc problema2.c -o problema2 
+    ./problema2
     ```
     ```bash
-    gcc -o problema3.c problema3.c 
-    ./problema3.c
+    gcc problema3.c -o problema3 
+    ./problema3
     ```
     ```bash
-    gcc -o problema4.c problema4.c
-    ./problema4.c
+    gcc problema4.c -o problema4.c
+    ./problema4
     ```
