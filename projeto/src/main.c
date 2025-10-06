@@ -275,7 +275,7 @@ int main() { // Função principal
 
         int alunos_ativos = cadastros_ativos(lista_alunos, total_alunos);
 
-        printf("ALUNO CADASTRADOS: %d / ALUNOS ATIVOS: %d", total_alunos, alunos_ativos);
+        printf("ALUNO CADASTRADOS: %d / ALUNOS ATIVOS: %d\n", total_alunos, alunos_ativos);
         printf("Digite a opcao desejada:\n 1 - Cadastro\n 2 - Consulta\n 3 - Atualizar Cadastro\n 4 - Deletar Cadastro\n 5 - Sair\n"); // Imprime opções ao usuário
         scanf("%d", &opcao_menu); // Lê e armazena opção
         limpar_buffer(); // Limpa o buffer após a escolha da opção
