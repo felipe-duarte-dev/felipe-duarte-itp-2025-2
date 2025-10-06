@@ -14,6 +14,19 @@ void limpar_buffer() { // Função para limpar o buffer de entrada
     while ((c = getchar()) != '\n' && c != EOF); // A função lê cada caractere, um por um, até encontrar o \n ou o End of File
 }
 
+int cadastros_ativos(Aluno lista[], int total_alunos) { // Função para calcular o número de cadastros ativos
+
+    int alunos_ativos = 0; // Declaração de variável do tipo inteiro
+
+    for (int i = 0; i < total_alunos; i++) { // Laço de repetição para contabilizar os alunos ativos
+        if (lista[i].ativo == 1) { // Verifica se o aluno está ativo
+            alunos_ativos++; // Caso esteja ativo a variável é incrementada
+        }
+    }
+
+    return alunos_ativos; // Retorna o número de alunos ativos
+}
+
 void cadastro_aluno(Aluno lista[], int *total_alunos) { // Função para cadastro dos alunos
     
     if (*total_alunos >= 100) { // Verifica se o número de alunos cadastrados atingiu o limite do vetor
@@ -250,19 +263,6 @@ void deletar_aluno(Aluno lista[], int total_alunos) {
 
     } while (opcao_deletar != 3); // Condição para o laço de repetição continuar
 
-}
-
-int cadastros_ativos(Aluno lista[], int total_alunos) { // Função para calcular o número de cadastros ativos
-
-    int alunos_ativos = 0; // Declaração de variável do tipo inteiro
-
-    for (int i = 0; i < total_alunos; i++) { // Laço de repetição para contabilizar os alunos ativos
-        if (lista[i].ativo == 1) { // Verifica se o aluno está ativo
-            alunos_ativos++; // Caso esteja ativo a variável é incrementada
-        }
-    }
-
-    return alunos_ativos; // Retorna o número de alunos ativos
 }
 
 int main() { // Função principal
