@@ -16,7 +16,7 @@
 
 **Repositório**: https://github.com/felipe-duarte-dev/felipe-duarte-itp-2025-2
 
-**Vídeo de Demonstração**: *Em Breve* 
+**Vídeo de Demonstração**: https://youtu.be/atyItMFnjFo?si=ymHIrDyqRXXo2Uhf
 
 ### Funcionalidades Implementadas:
 
