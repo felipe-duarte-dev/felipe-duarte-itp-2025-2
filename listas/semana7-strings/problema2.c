@@ -59,4 +59,6 @@ int main() { // Função principal do código
         }
 
     }
+
+    return 0;
 }
