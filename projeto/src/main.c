@@ -6,8 +6,12 @@ typedef struct { // Estrutura que servirá de molde para as informações pertin
     int idade; // Todo aluno possui uma idade inteira
     int serie_escolar; // Todo aluno está em uma série escolar
     char matricula[12]; // Todo aluno recebe uma matrícula do tipo: Ano-Perído-Classe_escolar-Serie_escolar-Número_identificador, ex: 20251033001
+    char materias_cursando[5][15]; // Todo aluno estará matriculado em 5 matérias padrão
+    int notas[5][3]; // Todo aluno receberá 3 notas para cada matéria padrão, representando uma nota por trimestre
     int ativo; // A varíavel ativo serve para definir se o cadastro do aluno está ativo (1) ou inativo (0)
 } Aluno; // O exemplo de matrícula descreve um aluno do período 2025.1, ensino médio: 03, 3 ano: 3, número identificador: 001
+
+char materias_padrao[5][15] = {"Matemática", "Português", "História", "Geografia", "Ciências"}; // Vetor contendo as matérias padrão
 
 void limpar_buffer() { // Função para limpar o buffer de entrada
     int c; // Variável que armazena temporariamente cada caractere lido
@@ -52,6 +56,16 @@ void cadastro_aluno(Aluno lista[], int *total_alunos) { // Função para cadastr
     printf("Digite a matricula: \n"); // Instrução para o usuário
     scanf("%12s", lista[indice].matricula); // Utilizei o scanf pois a entrada da matrícula não contém espaços, a legibilidade do código com scanf é mais simples
     limpar_buffer(); // Mesmo sendo a última pergunta a limpeza do buffer se faz necessária para continuar utilizando o loop do menu
+
+    for (int i = 0; i < 5; i++) { // Laço de repetição para adicionar as matérias padrão ao vetor de matérias de cada aluno
+        strcpy(lista[indice].materias_cursando[i], materias_padrao[i]); // Copia o valor do vetor padrão para o vetor de novo aluno cadastrado
+    }
+
+    for (int i = 0; i < 5; i++) { // Estutura de repetição aninhada para o preenchimento inicial da matriz de notas de cada aluno cadastrado
+        for (int j = 0; j < 3; j++) {
+            lista[indice].notas[i][j] = -1; // A matriz será preenchida com o valor -1 em todas posições, que representam a ausência de nota inicialmente
+        }
+    }
 
     lista[indice].ativo = 1; // Atribui o valor 1, ativo para o cadastro do aluno
 
