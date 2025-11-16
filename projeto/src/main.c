@@ -377,6 +377,91 @@ void alterar_deletar_notas(Aluno lista[], int total_alunos) { // Função para a
 
 }
 
+void consultar_notas(Aluno lista[], int total_alunos) {
+
+    if (total_alunos == 0) { // Verifica se há alunos cadastrados
+        printf("\nNao ha alunos cadastrados!\n"); // Imprime aviso caso não haja alunos cadastrados
+        return; // Retorna a função
+    }
+
+    int opcao_consultar, indice_aluno;
+
+    printf("Digite o numero do cadastro a ser consultado: \n"); 
+    scanf("%d", &indice_aluno); // Lê e armazena o índice do aluno a ser consultado
+    indice_aluno = indice_aluno - 1; // O índice é atualizado para ser baseado em índices de ínicio 0
+    limpar_buffer(); // Limpa o buffer de entrada
+
+    if (indice_aluno < 0 || indice_aluno >= total_alunos) { // Verifica se o aluno existe 
+        printf("Aluno inexistente, digite um numero entre 1 e %d para uma consulta valida!\n", total_alunos); 
+        return; 
+    }
+
+    if (lista[indice_aluno].ativo == 0) { // Verifica se o cadastro do aluno está ativo
+        printf("O aluno nao possui cadastro ativo!\n");
+        return;
+    }
+
+    do { // Laço de repetição que apresenta as opções disponíveis
+
+        printf("Qual a opcao desejada: \n 1 - Consulta Geral\n 2 - Consulta Específica\n 3 - Sair\n"); 
+        scanf("%d", &opcao_consultar); // Lê e armazena a opção escolhida
+        limpar_buffer(); 
+
+        if (opcao_consultar != 1 && opcao_consultar != 2 && opcao_consultar != 3) { // Verifica se a opção está dentro das opções existentes
+            opcao_consultar = -1; 
+        }
+
+        switch (opcao_consultar) { // Estrutura condicional que executa a opção escolhida
+            case 1:
+                for (int i = 0; i < 5; i++) { // Laço de repetição exterior, itera sobre as linhas
+                    printf("%s: \n", lista[indice_aluno].materias_cursando[i]); // Mostra a matéria que são exibidas as notas
+
+                    for (int j = 0; j < 3; j++) { // Laço de repetição interior, itera sobre as colunas
+                        printf("Unidade %d: ", j + 1); // Mostra a unidade que a nota foi atribuida
+
+                        if (lista[indice_aluno].notas[i][j] == -1) { // Verifica se a nota foi atribuida ou não
+                            printf("Nota nao atribuida\n");
+                        } else {
+                            printf("%d\n", lista[indice_aluno].notas[i][j]); // Em caso afirmativo a nota é exibida
+                        }
+                    }
+                }
+
+                return; // Retorna ao menu principal
+            case 2:
+                int materia_consultada;
+
+                printf("Selecione a materia a ser consultada: \n 1 - Matematica\n 2 - Portugues\n 3 - Historia\n 4 - Geografia\n 5 - Ciencias\n");
+                scanf("%d", &materia_consultada); // Lê e armazena a matéria específica a ser consultada
+                limpar_buffer();
+
+                if (materia_consultada < 1 || materia_consultada > 5) { // Verifica se a matéria escolhida está dentro das existentes
+                    printf("Materia invalida!\n");
+                    break; // Retorna a tela de opções
+                }
+
+                printf("%s: \n", lista[indice_aluno].materias_cursando[materia_consultada - 1]); // Mostra a matéria consultada
+
+                for (int i = 0; i < 3; i++) { // Laço de repetição que itera sobre as colunas da matriz de notas
+                    printf("Unidade %d: ", i + 1);
+                    if (lista[indice_aluno].notas[materia_consultada - 1][i] == -1) { // Verifica se a nota foi atribuida na unidade
+                        printf("Nota nao atribuida\n");
+                    } else {
+                        printf("%d\n", lista[indice_aluno].notas[materia_consultada - 1][i]); // Em caso afirmativo a nota é exibida
+                    }
+                }
+
+                break; // O laço é encerrado, retornando ao menu de escolha de consulta, possibilitando novas consultas específicas ou uma consulta geral
+            case 3:
+                return; // Retorna a função
+            default:
+                printf("Opcao invalida! Tente novamente\n"); // Exibe mensagem de erro
+        }
+
+    } while (opcao_consultar != 3); // Condição para o laço de repetição continuar
+
+}
+
 int main() { // Função principal
 
     Aluno lista_alunos[100]; // Vetor de dados do tipo Aluno, utilizando struct, possui o tamanho máximo de 100 elementos
@@ -388,11 +473,11 @@ int main() { // Função principal
         int alunos_ativos = cadastros_ativos(lista_alunos, total_alunos);
 
         printf("ALUNO CADASTRADOS: %d / ALUNOS ATIVOS: %d\n", total_alunos, alunos_ativos);
-        printf("Digite a opcao desejada:\n 1 - Cadastro\n 2 - Consulta\n 3 - Atualizar Cadastro\n 4 - Deletar Cadastro\n 5 - Alterar Notas\n 6 - Sair\n");
+        printf("Digite a opcao desejada:\n 1 - Cadastro\n 2 - Consulta\n 3 - Atualizar Cadastro\n 4 - Deletar Cadastro\n 5 - Alterar Notas\n 6 - Consultar Notas\n 7 - Sair\n");
         scanf("%d", &opcao_menu); // Lê e armazena opção
         limpar_buffer(); // Limpa o buffer após a escolha da opção
 
-        if (opcao_menu != 1 && opcao_menu != 2 && opcao_menu != 3 && opcao_menu != 4 && opcao_menu != 5 && opcao_menu != 6) { // Condição que verifica se a opção é válida
+        if (opcao_menu != 1 && opcao_menu != 2 && opcao_menu != 3 && opcao_menu != 4 && opcao_menu != 5 && opcao_menu != 6 && opcao_menu != 7) { // Condição que verifica se a opção é válida
             opcao_menu = -1; // Caso não seja válida o valor -1 é atribuído a variável de opção
         }
 
@@ -412,14 +497,17 @@ int main() { // Função principal
             case 5: // Opção de alterar e deletar notas
                 alterar_deletar_notas(lista_alunos, total_alunos); // Chama a função para alterar/deletar as notas de um aluno
                 break;
-            case 6: // Opção para encerrar o programa
+            case 6: // Opção de consulta de notas
+                consultar_notas(lista_alunos, total_alunos); // Chama a função para consultar as notas de um aluno
+                break;
+            case 7: // Opção para encerrar o programa
                 printf("Encerrando sistema... \n"); // Mensagem de encerramento
                 break;
             default: // Opções inválidas caem no caso padrão, reinicia o laço de repetição até a opção ser válida
                 printf("Opcao invalida!\n"); // Exibe mensagem ao usuário
         }
 
-    } while (opcao_menu != 6); // Enquanto a opção não for igual a 6 (Encerrar sistema) o laço de repetição continua
+    } while (opcao_menu != 7); // Enquanto a opção não for igual a 6 (Encerrar sistema) o laço de repetição continua
 
     return 0; // Retorna 0, sem erros
 }
