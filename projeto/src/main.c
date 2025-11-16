@@ -279,6 +279,104 @@ void deletar_aluno(Aluno lista[], int total_alunos) {
 
 }
 
+void alterar_deletar_notas(Aluno lista[], int total_alunos) { // Função para alteração de exclusão de notas
+
+    if (total_alunos == 0) { // Verifica se há alunos cadastrados
+        printf("\nNao ha alunos cadastrados!\n"); // Imprime aviso caso não haja alunos cadastrados
+        return; // Retorna a função
+    }
+
+    int opcao_nota, indice_aluno, materia_alterar;
+
+    printf("Digite o numero do cadastro a ser alterado: \n"); 
+    scanf("%d", &indice_aluno); // Lê e armazena o índice do aluno a ter suas notas alteradas
+    indice_aluno = indice_aluno - 1; // O índice é atualizado para ser baseado em índices de ínicio 0
+    limpar_buffer(); // Limpa o buffer de entrada
+
+    if (indice_aluno < 0 || indice_aluno >= total_alunos) { // Verifica se o aluno existe 
+        printf("Aluno inexistente, digite um numero entre 1 e %d para uma alteracao valida!\n", total_alunos); 
+        return; 
+    }
+
+    if (lista[indice_aluno].ativo == 0) { // Verifica se o cadastro do aluno está ativo
+        printf("O aluno nao possui cadastro ativo!\n");
+        return;
+    }
+
+    do { // Laço de repetição que apresenta as opções disponíveis
+
+        printf("Qual a opcao desejada: \n 1 - Atribuir nota\n 2 - Deletar nota\n 3 - Sair\n"); 
+        scanf("%d", &opcao_nota); // Lê e armazena a opção escolhida
+        limpar_buffer(); 
+
+        if (opcao_nota != 1 && opcao_nota != 2 && opcao_nota != 3) { // Verifica se a opção está dentro das opções existentes
+            opcao_nota = -1; 
+        }
+
+        switch (opcao_nota) { // Estrutura condicional que executa a opção escolhida
+            case 1:
+                printf("Selecione a materia: \n 1 - Matematica\n 2 - Portugues\n 3 - Historia\n 4 - Geografia\n 5 - Ciencias\n");
+                scanf("%d", &materia_alterar); // Lê e armazena a matéria a ser alterada
+                limpar_buffer();
+
+                if (materia_alterar < 1 || materia_alterar > 5) { // Verifica se a matéria escolhida está dentro das existentes
+                    printf("Materia invalida!\n");
+                    break; // Retorna a tela de opções
+                }
+
+                for (int i = 0; i < 3; i++) { // Laço de repetição para a alteração das notas da unidades da matéria escolhida
+                    int nota_temp; // Variável temporária que armazenará a nota
+
+                    printf("Nota da unidade %d:\n", i + 1); // Pergunta a nota a ser atribuida na unidade
+                    scanf("%d", &nota_temp); // Lê e armazena a nota
+                    limpar_buffer();
+
+                    if (nota_temp < 0 || nota_temp > 100) { // Verifica se a nota está entre 0 e 100
+                        printf("Nota invalida!");
+                        i--; // Decrementa a variável de iteração 
+                        continue; // Vai para a próxima iteração do for, que será a mesma pois a variável foi decrementada
+                    }
+
+                    lista[indice_aluno].notas[materia_alterar - 1][i] = nota_temp; // Altera na matriz de notas a nota da unidade da matéria escolhida
+                }
+
+                printf("Notas cadastradas com sucesso! \n"); // Mensagem de sucesso
+                break; // Retorna ao menu de opções
+            case 2:
+                printf("Selecione a materia: \n 1 - Matematica\n 2 - Portugues\n 3 - Historia\n 4 - Geografia\n 5 - Ciencias\n");
+                scanf("%d", &materia_alterar); // Lê e armazena a matéria a ser alterada
+                limpar_buffer();
+
+                if (materia_alterar < 1 || materia_alterar > 5) { // Verifica se a matéria escolhida está dentro das existentes
+                    printf("Materia invalida!\n");
+                    break;
+                }
+
+                int unidade_deletar;
+
+                printf("Selecione a unidade: \n 1 - 2 - 3\n"); 
+                scanf("%d", &unidade_deletar); // Lê e armazena a unidade a ter a nota deletada
+                limpar_buffer();
+
+                if (unidade_deletar < 1 || unidade_deletar > 3) { // Verifica se a unidade escolhida está dentro das existentes
+                    printf("Unidade invalida!\n");
+                    break;
+                }
+
+                lista[indice_aluno].notas[materia_alterar - 1][unidade_deletar - 1] = -1; // Atribui o valor de nota inexistente
+
+                printf("Nota deletada com sucesso!\n"); // Mensagem de sucesso
+                break; // Retorna ao menu de opções
+            case 3:
+                return; // Retorna a função
+            default:
+                printf("Opcao invalida! Tente novamente\n"); // Exibe mensagem de erro
+        }
+
+    } while (opcao_nota != 3); // Condição para o laço de repetição continuar
+
+}
+
 int main() { // Função principal
 
     Aluno lista_alunos[100]; // Vetor de dados do tipo Aluno, utilizando struct, possui o tamanho máximo de 100 elementos
@@ -290,11 +388,11 @@ int main() { // Função principal
         int alunos_ativos = cadastros_ativos(lista_alunos, total_alunos);
 
         printf("ALUNO CADASTRADOS: %d / ALUNOS ATIVOS: %d\n", total_alunos, alunos_ativos);
-        printf("Digite a opcao desejada:\n 1 - Cadastro\n 2 - Consulta\n 3 - Atualizar Cadastro\n 4 - Deletar Cadastro\n 5 - Sair\n"); // Imprime opções ao usuário
+        printf("Digite a opcao desejada:\n 1 - Cadastro\n 2 - Consulta\n 3 - Atualizar Cadastro\n 4 - Deletar Cadastro\n 5 - Alterar Notas\n 6 - Sair\n");
         scanf("%d", &opcao_menu); // Lê e armazena opção
         limpar_buffer(); // Limpa o buffer após a escolha da opção
 
-        if (opcao_menu != 1 && opcao_menu != 2 && opcao_menu != 3 && opcao_menu != 4 && opcao_menu != 5) { // Condição que verifica se a opção é válida
+        if (opcao_menu != 1 && opcao_menu != 2 && opcao_menu != 3 && opcao_menu != 4 && opcao_menu != 5 && opcao_menu != 6) { // Condição que verifica se a opção é válida
             opcao_menu = -1; // Caso não seja válida o valor -1 é atribuído a variável de opção
         }
 
@@ -311,14 +409,17 @@ int main() { // Função principal
             case 4: // Opção de deletar um usuário
                 deletar_aluno(lista_alunos, total_alunos); // Chama a função para deletar/reativar um cadastro de aluno
                 break;
-            case 5: // Opção para encerrar o programa
+            case 5: // Opção de alterar e deletar notas
+                alterar_deletar_notas(lista_alunos, total_alunos); // Chama a função para alterar/deletar as notas de um aluno
+                break;
+            case 6: // Opção para encerrar o programa
                 printf("Encerrando sistema... \n"); // Mensagem de encerramento
                 break;
             default: // Opções inválidas caem no caso padrão, reinicia o laço de repetição até a opção ser válida
                 printf("Opcao invalida!\n"); // Exibe mensagem ao usuário
         }
 
-    } while (opcao_menu != 5); // Enquanto a opção não for igual a 5 (Encerrar sistema) o laço de repetição continua
+    } while (opcao_menu != 6); // Enquanto a opção não for igual a 6 (Encerrar sistema) o laço de repetição continua
 
     return 0; // Retorna 0, sem erros
 }
