@@ -462,6 +462,51 @@ void consultar_notas(Aluno lista[], int total_alunos) {
 
 }
 
+void busca_textual(Aluno lista[], int total_alunos) { // Função para busca textual por matrícula ou nome do aluno
+
+    if (total_alunos == 0) { // Verifica se há alunos cadastrados
+        printf("\nNao ha alunos cadastrados!\n"); // Imprime aviso caso não haja alunos cadastrados
+        return; // Retorna a função
+    }
+
+    char consulta_texto[50]; // Variável que vai armazenar a busca textual
+
+    printf("\nCONSULTA TEXTUAL:\n Digite a matricula ou o nome:\n");
+    fgets(consulta_texto, 50, stdin); // Lê e armazena a string de busca
+    consulta_texto[strcspn(consulta_texto, "\n")] = 0; // Retira o \n no final da string e adiciona um \0 para indicar o fim dela
+
+    if (strlen(consulta_texto) == 0) { // Verifica se a string de busca é válida, ou seja, se realmente possui algo para ser buscado
+        printf("A consulta nao pode ser vazia!\n");
+        return;
+    }
+
+    int resultados = 0; // Variável que irá armazenar o número de resultados obtidos na pesquisa
+
+    for (int i = 0; i < total_alunos; i++) { // Itera sobre o número total de alunos
+
+        if (lista[i].ativo == 0) { // Verifica se o aluno está ativo
+            continue;
+        }
+
+        int nome_encontrado = strstr(lista[i].nome, consulta_texto); // A função strstr funciona buscando sub-strings na string desejada
+        int matricula_encontrado = strstr(lista[i].matricula, consulta_texto); // Caso haja uma sub-string dentro da string que corresponda ela retorna uma valor numérico
+
+        if (nome_encontrado != NULL || matricula_encontrado != NULL) { // Verifica se a função retornou um valor numérico ou nulo
+            printf("\n== Aluno %d ==\n", i + 1); // Caso retorne um valor numérico é exibido o nome, matrícula e número de cadastro do aluno
+            printf("Nome: %s\n", lista[i].nome);
+            printf("Matricula: %s\n", lista[i].matricula);
+            resultados++; // A variável resultado é incrementada
+        }
+    }
+
+    if (resultados == 0) { // Verifica se o número de resultados encontrados é igual a 0
+        printf("\n0 Resultados encontrados!\n");
+    } else {
+        printf("%d Resultados encontrados!", resultados);
+    }
+
+}
+
 int main() { // Função principal
 
     Aluno lista_alunos[100]; // Vetor de dados do tipo Aluno, utilizando struct, possui o tamanho máximo de 100 elementos
@@ -472,12 +517,12 @@ int main() { // Função principal
 
         int alunos_ativos = cadastros_ativos(lista_alunos, total_alunos);
 
-        printf("ALUNO CADASTRADOS: %d / ALUNOS ATIVOS: %d\n", total_alunos, alunos_ativos);
-        printf("Digite a opcao desejada:\n 1 - Cadastro\n 2 - Consulta\n 3 - Atualizar Cadastro\n 4 - Deletar Cadastro\n 5 - Alterar Notas\n 6 - Consultar Notas\n 7 - Sair\n");
+        printf("\nALUNO CADASTRADOS: %d / ALUNOS ATIVOS: %d\n", total_alunos, alunos_ativos);
+        printf("Digite a opcao desejada:\n1 - Cadastro\n2 - Consulta\n3 - Atualizar Cadastro\n4 - Deletar Cadastro\n5 - Alterar Notas\n6 - Consultar Notas\n7 - Busca Textual\n8 - Sair\n");
         scanf("%d", &opcao_menu); // Lê e armazena opção
         limpar_buffer(); // Limpa o buffer após a escolha da opção
 
-        if (opcao_menu != 1 && opcao_menu != 2 && opcao_menu != 3 && opcao_menu != 4 && opcao_menu != 5 && opcao_menu != 6 && opcao_menu != 7) { // Condição que verifica se a opção é válida
+        if (opcao_menu != 1 && opcao_menu != 2 && opcao_menu != 3 && opcao_menu != 4 && opcao_menu != 5 && opcao_menu != 6 && opcao_menu != 7 && opcao_menu != 8) { // Condição que verifica se a opção é válida
             opcao_menu = -1; // Caso não seja válida o valor -1 é atribuído a variável de opção
         }
 
@@ -500,14 +545,17 @@ int main() { // Função principal
             case 6: // Opção de consulta de notas
                 consultar_notas(lista_alunos, total_alunos); // Chama a função para consultar as notas de um aluno
                 break;
-            case 7: // Opção para encerrar o programa
+            case 7: // Opção de busca textual
+                busca_textual(lista_alunos, total_alunos); // Chama a função para busca textual de nome ou matrícula
+                break;
+            case 8: // Opção para encerrar o programa
                 printf("Encerrando sistema... \n"); // Mensagem de encerramento
                 break;
             default: // Opções inválidas caem no caso padrão, reinicia o laço de repetição até a opção ser válida
                 printf("Opcao invalida!\n"); // Exibe mensagem ao usuário
         }
 
-    } while (opcao_menu != 7); // Enquanto a opção não for igual a 6 (Encerrar sistema) o laço de repetição continua
+    } while (opcao_menu != 8); // Enquanto a opção não for igual a 8 (Encerrar sistema) o laço de repetição continua
 
     return 0; // Retorna 0, sem erros
 }
