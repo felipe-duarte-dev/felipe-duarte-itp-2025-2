@@ -31,14 +31,19 @@ int cadastros_ativos(Aluno lista[], int total_alunos) { // Função para calcula
     return alunos_ativos; // Retorna o número de alunos ativos
 }
 
-int verificar_cadastros(int total_alunos) { // Função que verifica se há alunos cadastrados
+int verificar_cadastros(Aluno lista[], int total_alunos) { // Função para verificar se há cadastro e se há cadastros ativos
 
-    if (total_alunos == 0) { // Verifica se há alunos cadastrados
-        printf("\nNao ha alunos cadastrados!\n"); // Imprime aviso caso não haja alunos cadastrados
-        return 0; // Retorna a função
-    } else {
-        return 1; // Caso haja alunos cadastrados a função retorna 1
+    if (total_alunos == 0) { // Verifica se existem cadastros 
+        printf("\nNao ha alunos cadastrados!\n");
+        return 0; // Retorna 0 caso não haja cadastros
     }
+
+    if (cadastros_ativos(lista, total_alunos) == 0) { // Verifica se existem cadastros ativos 
+        printf("\nNao ha cadastros ativos no sistema!\n");
+        return 0; // Retorna 0 caso não haja cadastros ativos
+    }
+
+    return 1; // Retorna 1 caso hajam cadastros ativos
 }
 
 void cadastro_aluno(Aluno lista[], int *total_alunos) { // Função para cadastro dos alunos
@@ -86,15 +91,8 @@ void cadastro_aluno(Aluno lista[], int *total_alunos) { // Função para cadastr
 
 void consultar_alunos(Aluno lista[], int total_alunos) { // Função para a listagem de alunos
 
-    if (verificar_cadastros(total_alunos) == 0) {
+    if (verificar_cadastros(lista, total_alunos) == 0) { // Verifica se há cadastros ativos
         return;
-    }
-
-    int alunos_ativos = cadastros_ativos(lista, total_alunos); // Recebe o número de aluno ativos
-
-    if (alunos_ativos == 0) { // Verifica se há cadastro de alunos ativos
-        printf("\nNao ha alunos cadastro de alunos ativo!\n"); // Imprime aviso caso não haja cadastros ativos
-        return; // Retorna a função
     }
 
     int opcao_listagem, indice_listagem; // Declaração de variáveis do tipo inteiro
@@ -155,15 +153,8 @@ void consultar_alunos(Aluno lista[], int total_alunos) { // Função para a list
 
 void alterar_aluno(Aluno lista[], int total_alunos) { // Função para alterar cadastro
 
-    if (verificar_cadastros(total_alunos) == 0) {
+    if (verificar_cadastros(lista, total_alunos) == 0) {
         return;
-    }
-
-    int alunos_ativos = cadastros_ativos(lista, total_alunos); // Recebe o número de aluno ativos
-
-    if (alunos_ativos == 0) { // Verifica se há cadastro de alunos ativos
-        printf("\nNao ha alunos cadastro de alunos ativo!\n"); // Imprime aviso caso não haja cadastros ativos
-        return; // Retorna a função
     }
 
     int opcao_alterar, indice_alterar, nova_idade, nova_serie; // Declaração de variáveis do tipo inteiro
@@ -231,7 +222,7 @@ void alterar_aluno(Aluno lista[], int total_alunos) { // Função para alterar c
 
 void deletar_aluno(Aluno lista[], int total_alunos) {
 
-    if (verificar_cadastros(total_alunos) == 0) {
+    if (verificar_cadastros(lista, total_alunos) == 0) {
         return;
     }
 
@@ -288,7 +279,7 @@ void deletar_aluno(Aluno lista[], int total_alunos) {
 
 void alterar_deletar_notas(Aluno lista[], int total_alunos) { // Função para alteração de exclusão de notas
 
-    if (verificar_cadastros(total_alunos) == 0) {
+    if (verificar_cadastros(lista, total_alunos) == 0) {
         return;
     }
 
@@ -385,7 +376,7 @@ void alterar_deletar_notas(Aluno lista[], int total_alunos) { // Função para a
 
 void consultar_notas(Aluno lista[], int total_alunos) {
 
-    if (verificar_cadastros(total_alunos) == 0) {
+    if (verificar_cadastros(lista, total_alunos) == 0) {
         return;
     }
 
@@ -467,7 +458,7 @@ void consultar_notas(Aluno lista[], int total_alunos) {
 
 void busca_textual(Aluno lista[], int total_alunos) { // Função para busca textual por matrícula ou nome do aluno
 
-    if (verificar_cadastros(total_alunos) == 0) {
+    if (verificar_cadastros(lista, total_alunos) == 0) {
         return;
     }
 
