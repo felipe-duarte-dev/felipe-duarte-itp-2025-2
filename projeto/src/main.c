@@ -46,6 +46,27 @@ int verificar_cadastros(Aluno lista[], int total_alunos) { // Função para veri
     return 1; // Retorna 1 caso hajam cadastros ativos
 }
 
+int obter_indice_aluno(Aluno lista[], int total_alunos) {
+    int indice;
+
+    printf("\nDigite o numero do cadastro a ser realizada a operacao: \n"); // Instrução para o usuário
+    if (scanf("%d", &indice) != 1) {
+        limpar_buffer();
+        printf("\nEntrada invalida!\n");
+        return -1;
+    }
+
+    limpar_buffer();
+    indice = indice - 1;
+
+    if (indice < 0 || indice >= total_alunos || lista[indice].ativo == 0) { // Verifica se o indice digitado está dentro dos índices existentes e ativos
+        printf("Aluno inexistente ou cadastro inativo!"); // Exibe mensagem de erro
+        return -1; // Retorna erro -1
+    }
+
+    return indice;
+}
+
 void cadastro_aluno(Aluno lista[], int *total_alunos) { // Função para cadastro dos alunos
     
     if (*total_alunos >= 100) { // Verifica se o número de alunos cadastrados atingiu o limite do vetor
@@ -125,15 +146,7 @@ void consultar_alunos(Aluno lista[], int total_alunos) { // Função para a list
                 break;
             case 2: // Lista apenas um usuário escolhido
 
-                printf("Digite o indice do aluno a ser consultado: \n"); // Pergunta ao usuário qual aluno ele deseja consultar
-                scanf("%d", &indice_listagem); // Lê e armazena o número do aluno a ser consultado
-                indice_listagem -= 1; // A variável é decrementada para representar o índice real do aluno no vetor, ex: O aluno de cadastro 01 está no índice 0 do vetor
-                limpar_buffer(); // Limpa o buffer de entrada
-
-                if (indice_listagem < 0 || indice_listagem >= total_alunos || lista[indice_listagem].ativo == 0) { // Verifica se o indice digitado está dentro dos índices existentes e ativos
-                    printf("Aluno inexistente ou cadastro inativo!"); // Exibe mensagem de erro
-                    break;
-                }
+                indice_listagem = obter_indice_aluno(lista, total_alunos);
 
                 printf("\n == Aluno %d ==\n", indice_listagem + 1); // Mostra o número do aluno a ser exibido
                 printf("Nome: %s\n", lista[indice_listagem].nome); // Imprime nome
@@ -161,15 +174,7 @@ void alterar_aluno(Aluno lista[], int total_alunos) { // Função para alterar c
     char novo_nome[50]; // Declaração de variável do tipo string (cadeia de caracteres)
     char nova_matricula[12]; // Declaração de variável do tipo string (cadeia de caracteres)
 
-    printf("Digite o numero do cadastro a ser alterado: \n"); // Instrução para o usuário
-    scanf("%d", &indice_alterar); // Lê e armazena o número do cadastro
-    indice_alterar = indice_alterar - 1; // Decrementa a variável em 1 unidade para refletir o índice real no vetor, já que o primeiro índice é o 0
-    limpar_buffer(); // Limpa o buffer de entrada
-
-    if (indice_alterar < 0 || indice_alterar >= total_alunos || lista[indice_alterar].ativo == 0) { // Verifica se o indice digitado está dentro dos índices existentes e ativos
-        printf("Aluno inexistente ou cadastro inativo, digite um numero entre 1 e %d para uma alteracao valida!", total_alunos); // Exibe mensagem de erro
-        return; // Retorna a função sem nada
-    }
+    indice_alterar = obter_indice_aluno(lista, total_alunos);
 
     do { // Laço de repetição das opções
 
@@ -228,19 +233,11 @@ void deletar_aluno(Aluno lista[], int total_alunos) {
 
     int opcao_deletar, indice_operacao; // Declaração de variáveis do tipo inteiro
 
-    printf("Digite o numero do cadastro a ser deletado/reativado: \n"); // Instrução para o usuário
-    scanf("%d", &indice_operacao); // Lê e armazena o número do cadastro
-    indice_operacao = indice_operacao - 1; // Decrementa a variável em 1 unidade para refletir o índice real no vetor, já que o primeiro índice é o 0
-    limpar_buffer(); // Limpa o buffer de entrada
-
-    if (indice_operacao < 0 || indice_operacao >= total_alunos) { // Verifica se o indice digitado está dentro dos índices existentes
-        printf("Aluno inexistente, digite um numero entre 1 e %d para uma alteracao valida!", total_alunos); // Exibe mensagem de erro
-        return; // Retorna a função sem nada
-    }
+    indice_operacao = obter_indice_aluno(lista, total_alunos);
 
     do { // Laço de repetição que apresenta as opções disponíveis
 
-        printf("Qual a opcao desejada: \n 1 - Deletar cadastro\n 2 - Reativar cadastro\n 3 - Sair\n"); // Opções de deletar/reativar
+        printf("Qual a opcao desejada: \n 1 - Desativar cadastro\n 2 - Reativar cadastro\n 3 - Sair\n"); // Opções de deletar/reativar
         scanf("%d", &opcao_deletar); // Lê e armazena a opção de deletar/reativar
         limpar_buffer(); // Limpa buffer de entrada
 
@@ -255,7 +252,7 @@ void deletar_aluno(Aluno lista[], int total_alunos) {
                     return; // Retorna a função
                 } else { // Condição para caso o aluno esteja ativo
                     lista[indice_operacao].ativo = 0; // Altera o valor da variável para 0 (falso) tornando o aluno inativo
-                    printf("Cadastro deletado com sucesso!\n"); // Exibe mensagem de sucesso
+                    printf("Cadastro desativado com sucesso!\n"); // Exibe mensagem de sucesso
                     return;
                 }
             case 2:
@@ -285,20 +282,7 @@ void alterar_deletar_notas(Aluno lista[], int total_alunos) { // Função para a
 
     int opcao_nota, indice_aluno, materia_alterar;
 
-    printf("Digite o numero do cadastro a ser alterado: \n"); 
-    scanf("%d", &indice_aluno); // Lê e armazena o índice do aluno a ter suas notas alteradas
-    indice_aluno = indice_aluno - 1; // O índice é atualizado para ser baseado em índices de ínicio 0
-    limpar_buffer(); // Limpa o buffer de entrada
-
-    if (indice_aluno < 0 || indice_aluno >= total_alunos) { // Verifica se o aluno existe 
-        printf("Aluno inexistente, digite um numero entre 1 e %d para uma alteracao valida!\n", total_alunos); 
-        return; 
-    }
-
-    if (lista[indice_aluno].ativo == 0) { // Verifica se o cadastro do aluno está ativo
-        printf("O aluno nao possui cadastro ativo!\n");
-        return;
-    }
+    indice_aluno = obter_indice_aluno(lista, total_alunos);
 
     do { // Laço de repetição que apresenta as opções disponíveis
 
@@ -382,20 +366,7 @@ void consultar_notas(Aluno lista[], int total_alunos) {
 
     int opcao_consultar, indice_aluno, materia_consultada;
 
-    printf("Digite o numero do cadastro a ser consultado: \n"); 
-    scanf("%d", &indice_aluno); // Lê e armazena o índice do aluno a ser consultado
-    indice_aluno = indice_aluno - 1; // O índice é atualizado para ser baseado em índices de ínicio 0
-    limpar_buffer(); // Limpa o buffer de entrada
-
-    if (indice_aluno < 0 || indice_aluno >= total_alunos) { // Verifica se o aluno existe 
-        printf("Aluno inexistente, digite um numero entre 1 e %d para uma consulta valida!\n", total_alunos); 
-        return; 
-    }
-
-    if (lista[indice_aluno].ativo == 0) { // Verifica se o cadastro do aluno está ativo
-        printf("O aluno nao possui cadastro ativo!\n");
-        return;
-    }
+    indice_aluno = obter_indice_aluno(lista, total_alunos);
 
     do { // Laço de repetição que apresenta as opções disponíveis
 
@@ -511,7 +482,7 @@ int main() { // Função principal
         int alunos_ativos = cadastros_ativos(lista_alunos, total_alunos);
 
         printf("\nALUNO CADASTRADOS: %d / ALUNOS ATIVOS: %d\n", total_alunos, alunos_ativos);
-        printf("Digite a opcao desejada:\n1 - Cadastro\n2 - Consulta\n3 - Atualizar Cadastro\n4 - Deletar Cadastro\n5 - Alterar Notas\n6 - Consultar Notas\n7 - Busca Textual\n8 - Sair\n");
+        printf("Digite a opcao desejada:\n1 - Cadastro\n2 - Consulta\n3 - Atualizar Cadastro\n4 - Desativar/Ativar Cadastro\n5 - Alterar Notas\n6 - Consultar Notas\n7 - Busca Textual\n8 - Sair\n");
         scanf("%d", &opcao_menu); // Lê e armazena opção
         limpar_buffer(); // Limpa o buffer após a escolha da opção
 
