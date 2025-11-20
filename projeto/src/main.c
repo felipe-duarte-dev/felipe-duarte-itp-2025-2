@@ -31,6 +31,16 @@ int cadastros_ativos(Aluno lista[], int total_alunos) { // Função para calcula
     return alunos_ativos; // Retorna o número de alunos ativos
 }
 
+int verificar_cadastros(int total_alunos) { // Função que verifica se há alunos cadastrados
+
+    if (total_alunos == 0) { // Verifica se há alunos cadastrados
+        printf("\nNao ha alunos cadastrados!\n"); // Imprime aviso caso não haja alunos cadastrados
+        return 0; // Retorna a função
+    } else {
+        return 1; // Caso haja alunos cadastrados a função retorna 1
+    }
+}
+
 void cadastro_aluno(Aluno lista[], int *total_alunos) { // Função para cadastro dos alunos
     
     if (*total_alunos >= 100) { // Verifica se o número de alunos cadastrados atingiu o limite do vetor
@@ -76,9 +86,8 @@ void cadastro_aluno(Aluno lista[], int *total_alunos) { // Função para cadastr
 
 void consultar_alunos(Aluno lista[], int total_alunos) { // Função para a listagem de alunos
 
-    if (total_alunos == 0) { // Verifica se há alunos cadastrados
-        printf("\nNao ha alunos cadastrados!\n"); // Imprime aviso caso não haja alunos cadastrados
-        return; // Retorna a função
+    if (verificar_cadastros(total_alunos) == 0) {
+        return;
     }
 
     int alunos_ativos = cadastros_ativos(lista, total_alunos); // Recebe o número de aluno ativos
@@ -146,9 +155,8 @@ void consultar_alunos(Aluno lista[], int total_alunos) { // Função para a list
 
 void alterar_aluno(Aluno lista[], int total_alunos) { // Função para alterar cadastro
 
-    if (total_alunos == 0) { // Verifica se há alunos cadastrados
-        printf("\nNao ha alunos cadastrados!\n"); // Imprime aviso caso não haja alunos cadastrados
-        return; // Retorna a função
+    if (verificar_cadastros(total_alunos) == 0) {
+        return;
     }
 
     int alunos_ativos = cadastros_ativos(lista, total_alunos); // Recebe o número de aluno ativos
@@ -223,9 +231,8 @@ void alterar_aluno(Aluno lista[], int total_alunos) { // Função para alterar c
 
 void deletar_aluno(Aluno lista[], int total_alunos) {
 
-    if (total_alunos == 0) { // Verifica se há alunos cadastrados
-        printf("\nNao ha alunos cadastrados!\n"); // Imprime aviso caso não haja alunos cadastrados
-        return; // Retorna a função
+    if (verificar_cadastros(total_alunos) == 0) {
+        return;
     }
 
     int opcao_deletar, indice_operacao; // Declaração de variáveis do tipo inteiro
@@ -281,9 +288,8 @@ void deletar_aluno(Aluno lista[], int total_alunos) {
 
 void alterar_deletar_notas(Aluno lista[], int total_alunos) { // Função para alteração de exclusão de notas
 
-    if (total_alunos == 0) { // Verifica se há alunos cadastrados
-        printf("\nNao ha alunos cadastrados!\n"); // Imprime aviso caso não haja alunos cadastrados
-        return; // Retorna a função
+    if (verificar_cadastros(total_alunos) == 0) {
+        return;
     }
 
     int opcao_nota, indice_aluno, materia_alterar;
@@ -379,12 +385,11 @@ void alterar_deletar_notas(Aluno lista[], int total_alunos) { // Função para a
 
 void consultar_notas(Aluno lista[], int total_alunos) {
 
-    if (total_alunos == 0) { // Verifica se há alunos cadastrados
-        printf("\nNao ha alunos cadastrados!\n"); // Imprime aviso caso não haja alunos cadastrados
-        return; // Retorna a função
+    if (verificar_cadastros(total_alunos) == 0) {
+        return;
     }
 
-    int opcao_consultar, indice_aluno;
+    int opcao_consultar, indice_aluno, materia_consultada;
 
     printf("Digite o numero do cadastro a ser consultado: \n"); 
     scanf("%d", &indice_aluno); // Lê e armazena o índice do aluno a ser consultado
@@ -429,8 +434,6 @@ void consultar_notas(Aluno lista[], int total_alunos) {
 
                 return; // Retorna ao menu principal
             case 2:
-                int materia_consultada;
-
                 printf("Selecione a materia a ser consultada: \n 1 - Matematica\n 2 - Portugues\n 3 - Historia\n 4 - Geografia\n 5 - Ciencias\n");
                 scanf("%d", &materia_consultada); // Lê e armazena a matéria específica a ser consultada
                 limpar_buffer();
@@ -464,9 +467,8 @@ void consultar_notas(Aluno lista[], int total_alunos) {
 
 void busca_textual(Aluno lista[], int total_alunos) { // Função para busca textual por matrícula ou nome do aluno
 
-    if (total_alunos == 0) { // Verifica se há alunos cadastrados
-        printf("\nNao ha alunos cadastrados!\n"); // Imprime aviso caso não haja alunos cadastrados
-        return; // Retorna a função
+    if (verificar_cadastros(total_alunos) == 0) {
+        return;
     }
 
     char consulta_texto[50]; // Variável que vai armazenar a busca textual
