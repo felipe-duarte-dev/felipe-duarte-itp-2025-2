@@ -1,8 +1,9 @@
 #include <stdio.h> // Inclui biblioteca de entrada e saída
 #include <string.h> // Inclui biblioteca com funções para strings
+#include <stdlib.h> // Inclui biblioteca para manipulação de memória
 
 typedef struct { // Estrutura que servirá de molde para as informações pertinentes a um aluno, atuando como no dicionário em python, atuando como par chave-valor
-    char nome[50]; // Todo aluno possui com nome com tamanho de até 50 caracteres
+    char *nome; // Agora o vetor de nome é um ponteiro, que será alocado dinamicamente conforme o tamanho do nome
     int idade; // Todo aluno possui uma idade inteira
     int serie_escolar; // Todo aluno está em uma série escolar
     char matricula[12]; // Todo aluno recebe uma matrícula do tipo: Ano-Perído-Classe_escolar-Serie_escolar-Número_identificador, ex: 20251033001
@@ -75,11 +76,15 @@ void cadastro_aluno(Aluno lista[], int *total_alunos) { // Função para cadastr
     }
 
     int indice = *total_alunos; // Atualiza o indice com o número total de alunos, logo o último aluno cadastrado estará na última posição do vetor
-
+    
     printf("\n == Cadastro de Aluno %d ==\n", indice + 1); // Mostra o usuário o número do aluno cadastrado com base no índice, +1 pois o índice começa no 0
+
+    char nome_temp[50]; // Variável temporária que vai armazenar o nome cadastrado
     printf("Digite o nome: \n"); // Instrução para o usuário
-    fgets(lista[indice].nome, 50, stdin); // Lê a linha inteira e armazena o nome do aluno na chave nome do tipo criado Aluno
-    lista[indice].nome[strcspn(lista[indice].nome, "\n")] = 0; // Retira o \n do final do nome adicionado pelo fgets
+    fgets(nome_temp, 50, stdin); // Lê a linha inteira e armazena o nome do aluno na chave nome do tipo criado Aluno
+    nome_temp[strcspn(nome_temp, "\n")] = 0; // Retira o \n do final do nome adicionado pelo fgets
+    lista[indice].nome = (char*) malloc((strlen(nome_temp) + 1) * sizeof(char)); // Aloca dinamicamente o vetor contendo o nome cadastrado
+    strcpy(lista[indice].nome, nome_temp); // Copia o nome da variável temporária para o vetor definitivo
 
     printf("Digite a idade: \n"); // Instrução para o usuário
     scanf("%d", &lista[indice].idade); // Lê e armazena a idade do aluno no vetor de alunos cadastrados, na chave idade da posição que o cadastro ocupa
@@ -191,6 +196,10 @@ void alterar_aluno(Aluno lista[], int total_alunos) { // Função para alterar c
                 printf("Digite o novo nome: \n"); // Instrução para o usuário
                 fgets(novo_nome, 50, stdin); // Lê a entrada do usuário, incluindo espaços em branco
                 novo_nome[strcspn(novo_nome, "\n")] = 0; // Retira do final o "\n" que o fgets adiciona
+
+                free(lista[indice_alterar].nome); // Libera a memória do vetor com o nome antigo
+                lista[indice_alterar].nome = (char*) malloc((strlen(novo_nome) + 1) * sizeof(char)); // Aloca dinamicamente o vetor para o novo nome
+
                 strcpy(lista[indice_alterar].nome, novo_nome); // Utiliza a função strcpy para alterar o valor da chave nome do cadastro escolhido
                 printf("Novo nome: %s\n", lista[indice_alterar].nome); // Imprime o novo nome para o usuário conferir
                 break;
