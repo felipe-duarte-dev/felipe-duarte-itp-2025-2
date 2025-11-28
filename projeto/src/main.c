@@ -461,8 +461,8 @@ void busca_textual(Aluno lista[], int total_alunos) { // Função para busca tex
             continue;
         }
 
-        int nome_encontrado = strstr(lista[i].nome, consulta_texto); // A função strstr funciona buscando sub-strings na string desejada
-        int matricula_encontrado = strstr(lista[i].matricula, consulta_texto); // Caso haja uma sub-string dentro da string que corresponda ela retorna uma valor numérico
+        char *nome_encontrado = strstr(lista[i].nome, consulta_texto); // A função strstr funciona buscando sub-strings na string desejada
+        char *matricula_encontrado = strstr(lista[i].matricula, consulta_texto); // Caso haja uma sub-string dentro da string que corresponda ela retorna uma valor numérico
 
         if (nome_encontrado != NULL || matricula_encontrado != NULL) { // Verifica se a função retornou um valor numérico ou nulo
             printf("\n== Aluno %d ==\n", i + 1); // Caso retorne um valor numérico é exibido o nome, matrícula e número de cadastro do aluno
